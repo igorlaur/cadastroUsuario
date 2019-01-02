@@ -7,7 +7,7 @@ export default props =>
         <nav className="menu">
         {}
             <Link to="/home"> {/* Substitui <a para Link*/}
-                <i className='fa fa-home'>Início</i>
+                <i className='fa fa-home'> Início</i>
             </Link>
             <Link to="/users">
                 <i className={`fa fa-${props.icon}`}></i> {props.title} {/*Estou chamando o ícone e título do App.jsx de Nav*/}
