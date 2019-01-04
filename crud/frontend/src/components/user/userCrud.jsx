@@ -19,7 +19,7 @@ const initialState = {
 
 export default class UserCrud extends Component {
 
-    state = {...initialState}
+    state = {...initialState} // chamo state
 
     // Limpo usuário
     clear() {
@@ -46,11 +46,62 @@ export default class UserCrud extends Component {
         return list
     }
 
+    // Atualizar nome e email
+    updateField(event){
+        const user = {...this.state.user} // Clono o usuário e armazeno na constante
+        user[event.target.name] = event.target.value // nome do input name e email // seto igual ao valor que está dentro do meu campo input
+        this.setState({ user }) // Vai setar o estado
+    }
+
+    // JSX para renderizar formulário
+    renderForm(){
+        return (
+            <div className="form">
+                <div className="row">
+                    <div className="col-12 col-md-6"> {/* Celular ocupaa 12 colunas e Dispositivo medio, grande ou extra grande ocupará 6 colunas */}
+                        <div className="form-group">
+                            <label>Nome</label>
+                            <input type="text" className="form-control"
+                                name="name"
+                                value={this.state.user.name}
+                                onChange={e => this.updateField(e)}
+                                placeholder="Digite o nome..."
+                                /> {/* Passando evento onChange */}
+                        </div>
+                    </div>
+
+                    <div className="col-12 col-md-6">
+                        <div className="form-group">
+                            <label>E-mail</label>
+                            <input type="text" className="form-control"
+                                name="email"
+                                value={this.state.user.email}
+                                onChange={e => this.updateField(e)}
+                                placeholder="Digite o e-mail..." />
+                        </div>
+                    </div>
+                </div>
+
+                <hr />
+                <div className="row">
+                    <div className="col-12 d-flex justify-content-end"> {/* d-flex = display flexível / justify = justificar botões para o final */}
+                        <button className="btn btn-primary" onClick={e => this.save(e)}> {/* save e passo evento */}
+                            Salvar
+                        </button>
+                        <button className="btn btnsecondary ml-2" onClick={e => this.clear(e)}> {/* ml-2 = margem */}
+                            Cancelar
+                        </button> 
+                    </div>
+                </div>
+            </div>
+        )
+    }
+
     /* Antes do componente ser exibito ele executará está funcão */
     render(){
         return(
             <Main {...headerProps}>
-                Cadastro de Usuário
+                {this.renderForm()} {/* Renderiza o formulário */}
             </Main>
         )
     }
