@@ -1,11 +1,19 @@
 {
-    "users": [{
-        "id": 1,
-        "name": "Igor Laur",
-        "email": "igor.laur2@gmail.com"
-    }, {
-        "id": 2,
-        "name": "Antonio Laur",
-        "email": "tony.laur2@gmail.com"
-    }]
+  "users": [
+    {
+      "id": 1,
+      "name": "Igor Laur",
+      "email": "igor.laur2@gmail.com"
+    },
+    {
+      "id": 2,
+      "name": "Antonio Laur",
+      "email": "tony.laur2@gmail.com"
+    },
+    {
+      "name": "Neide",
+      "email": "neide.gusmao929@gmail.com",
+      "id": 3
+    }
+  ]
 }
