@@ -6,12 +6,13 @@ aside.logo {
 }
 
 aside.logo img {
-    padding: 0px 80px;
+    padding: 0px 15px;
     width: 100%;
 }
 
 @media(max-width: 576px) {
     aside.logo img {
+        padding: 0px 80px;
         width: 350px;
     }
 }
