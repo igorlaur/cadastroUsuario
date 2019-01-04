@@ -21,6 +21,13 @@ export default class UserCrud extends Component {
 
     state = {...initialState} // chamo state
 
+    // Função chamada quando componente for ser exibido na tela 
+    componentWillMount(){
+        axios(baseUrl).then(resp => { // Consulta trará os 3 usuários do DB. // Axios faz get em baseUrl que tras todas URLS // Then trás resposta
+            this.setState({list: resp.data }) // O que eu recebi como resposta da minha aquisição eu salvo dentro da lista
+        })
+    }
+
     // Limpo usuário
     clear() {
         this.setState({ user: initialState.user }) // Limpo o usuário
@@ -40,9 +47,9 @@ export default class UserCrud extends Component {
         }
 
     // Adiciono usuário na primeira posição
-    getUpdatedList(user) {
+    getUpdatedList(user, add = true) {
         const list = this.state.list.filter(u => u.id !== user.id) // filter gera uma nova lista // filtro a lista de usuários = ou seja, estou removendo usuário da lista
-        list.unshift(user)// unshift = Adiciono usuário na lista na primeira posição 
+        if(add) list.unshift(user) // Se usuário está setado => // unshift = Adiciono usuário na lista na primeira posição 
         return list
     }
 
@@ -97,11 +104,62 @@ export default class UserCrud extends Component {
         )
     }
 
+    // Carrega usuário      -       quando clica na caneta
+    load(user) {
+        this.setState({ user })
+    }
+
+    remove(user){
+        axios.delete(`${baseUrl}/${user.id}`).then(resp => {
+            const list = this.getUpdatedList(user, false) // false = nao vai adicionar elemento na lista e terá a lista menos aquele elemento
+            this.setState({ list })
+        })
+    }
+
+    renderTable() {
+        return (
+            <table className="table mt-4"> {/* mt = margem top */}
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nome</th>
+                        <th>E-mail</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {this.renderRows()}
+                </tbody>
+            </table> 
+        )
+    }
+
+    renderRows() {
+        return this.state.list.map(user => { // mapeio lista de usuário que está dentro do estado do meu objeto que está dentro do meu jsx
+            return ( // Mapeio meu usuário e passo neste trecho de código abaixo
+                <tr key={user.id}> {/* Sempre que retorno array jsx tem que ter atributo key para nao gerar divertencia */}
+                    <td>{user.id}</td>
+                    <td>{user.name}</td>
+                    <td>{user.email}</td>
+                    <td>
+                        <button className="btn btn-warning" onClick={() => this.load(user)}> {/* Poderia passar letra "e" de event no lugar do () */}
+                            <i className="fa fa-pencil"></i>
+                        </button>
+                        <button className="btn btn-danger ml-2" onClick={() => this.remove(user)}> {/* ML = Margem Left */}
+                            <i className="fa fa-trash"></i>
+                        </button>
+                    </td>
+                </tr>
+            )
+        })
+    }
+
     /* Antes do componente ser exibito ele executará está funcão */
     render(){
         return(
             <Main {...headerProps}>
                 {this.renderForm()} {/* Renderiza o formulário */}
+                {this.renderTable()}
             </Main>
         )
     }
